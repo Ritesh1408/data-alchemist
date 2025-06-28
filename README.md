@@ -18,6 +18,7 @@
 * **AI Rule Suggestions**
 * **Priority Management Sliders**
 * **Editable Data Grids**
+* **Bar Chart Visualizations**
 
 It simplifies complex configuration by allowing natural interaction with your data.
 
@@ -44,6 +45,8 @@ It simplifies complex configuration by allowing natural interaction with your da
 ✅ Natural Language Rule Input (e.g., *Co-run Task A and Task B*)
 
 ✅ Natural Language Data Search (e.g., *Show tasks longer than 2 phases in phase 3*)
+
+✅ **Bar Chart Visualization of Search Results**
 
 ✅ Export Cleaned Datasets and Generated Rules
 
@@ -130,6 +133,19 @@ App will be running at:
 
 ---
 
+## 📊 Visualizations
+
+After each search, **bar charts automatically display the relevant data** for quick insights.
+
+### Example:
+
+* For **tasks**, a bar chart of `TaskName` vs `Duration` is shown.
+* Easily switch to a line chart if needed.
+
+> Visualization is powered by **recharts** and adapts to your search results.
+
+---
+
 ## 📤 Export Options
 
 * Export cleaned **Clients, Workers, Tasks** datasets as CSV files.
@@ -146,6 +162,7 @@ App will be running at:
 * **shadcn/ui**
 * **Sonner (Toast Notifications)**
 * **@tanstack/react-table** (Editable Tables)
+* **Recharts** (Data Visualizations)
 
 ---
 
@@ -164,4 +181,3 @@ App will be running at:
 This project is licensed under the MIT License.
 
 ---
-
