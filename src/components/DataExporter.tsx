@@ -5,11 +5,12 @@ import { exportCSV } from '@/utils/csvExporter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
+import { RuleSuggestion } from '@/types/global';
 
 export const DataExporter: React.FC = () => {
   const { clients, workers, tasks } = useAppSelector((state) => state.data);
 
-  const handleExport = (data: any[], filename: string) => {
+  const handleExport = (data: RuleSuggestion[], filename: string) => {
     if (data.length === 0) return;
     exportCSV(data, filename);
     toast.success(`✅ ${filename}.csv exported successfully!`);

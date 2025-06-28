@@ -1,11 +1,13 @@
-export const recommendRules = (clients: any[], workers: any[], tasks: any[]) => {
-  const recommendations: any[] = [];
+import { Client, Worker, RuleSuggestion } from '@/types/global';
+
+export const recommendRules = (clients: Client[], workers: Worker[]): RuleSuggestion[] => {
+  const recommendations: RuleSuggestion[] = [];
 
   // Find tasks that are commonly requested together
   const taskPairs = new Map<string, number>();
 
   clients.forEach((client) => {
-    const requestedTasks = client.RequestedTaskIDs.split(',').map((id: string) => id.trim());
+    const requestedTasks = String(client.RequestedTaskIDs).split(',').map((id: string) => id.trim());
     for (let i = 0; i < requestedTasks.length; i++) {
       for (let j = i + 1; j < requestedTasks.length; j++) {
         const pairKey = [requestedTasks[i], requestedTasks[j]].sort().join(',');

@@ -8,13 +8,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { RuleSuggestion } from '@/types/global';
 
 const SUGGESTIONS_BATCH_SIZE = 5;
 
 export const AIRuleSuggestions: React.FC = () => {
   const { clients, workers, tasks } = useAppSelector((state) => state.data);
   const dispatch = useAppDispatch();
-  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [suggestions, setSuggestions] = useState<RuleSuggestion[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [visibleCount, setVisibleCount] = useState(SUGGESTIONS_BATCH_SIZE);
 
@@ -30,7 +31,7 @@ export const AIRuleSuggestions: React.FC = () => {
     }, 500);
   };
 
-  const handleAddRule = (rule: any) => {
+  const handleAddRule = (rule: RuleSuggestion) => {
     dispatch(addRule(rule));
     toast.success('🎉 Rule added successfully!');
   };
@@ -66,7 +67,7 @@ export const AIRuleSuggestions: React.FC = () => {
             <p className="text-gray-700">{suggestion.description}</p>
             <Button
               variant="outline"
-              onClick={() => handleAddRule({ type: suggestion.type, params: suggestion.params })}
+              onClick={() => handleAddRule({ type: suggestion.type, params: suggestion.params, description: suggestion.description })} className="mt-2"
             >
               Accept Rule
             </Button>

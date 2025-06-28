@@ -5,18 +5,22 @@ import { useAppSelector } from '@/store/hooks';
 import { parseSearchQuery } from '@/utils/nlpSearchParser';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import { Client, Worker, Task } from '@/types/global';
+
+type EntityType = 'clients' | 'workers' | 'tasks' | '';
+type EntityData = Client | Worker | Task;
 
 export const NaturalLanguageSearch: React.FC = () => {
   const { clients, workers, tasks } = useAppSelector((state) => state.data);
   const [query, setQuery] = useState('');
-  const [filteredData, setFilteredData] = useState<any[]>([]);
-  const [entityType, setEntityType] = useState<'clients' | 'workers' | 'tasks' | ''>('');
+  const [filteredData, setFilteredData] = useState<EntityData[]>([]);
+  const [entityType, setEntityType] = useState<EntityType>('');
 
   const handleSearch = () => {
     const result = parseSearchQuery(query, { clients, workers, tasks });
     if (result) {
-      setEntityType(result.entityType as '' | 'clients' | 'workers' | 'tasks');
-      setFilteredData(result.data);
+      setEntityType(result.entityType as EntityType);
+      setFilteredData(result.data as EntityData[]);
     } else {
       toast.error('Could not understand the search query.');
       setEntityType('');
@@ -53,8 +57,14 @@ export const NaturalLanguageSearch: React.FC = () => {
             <tbody>
               {filteredData.map((row, idx) => (
                 <tr key={idx} className="hover:bg-gray-50">
-                  {Object.values(row).map((val, i) => (
-                    <td key={i} className="border px-4 py-2">{typeof val === 'object' ? JSON.stringify(val) : val}</td>
+                  {Object.entries(row).map(([val], i) => (
+                    <td key={i} className="border px-4 py-2">
+                      {Array.isArray(val)
+                        ? val.join(', ')
+                        : typeof val === 'object' && val !== null
+                        ? JSON.stringify(val)
+                        : String(val)}
+                    </td>
                   ))}
                 </tr>
               ))}

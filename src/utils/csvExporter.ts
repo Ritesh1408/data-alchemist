@@ -1,19 +1,21 @@
 import { saveAs } from 'file-saver';
 
-export const exportCSV = (data: any[], filename: string) => {
+export const exportCSV = (data: Record<string, unknown>[], filename: string) => {
   if (data.length === 0) return;
 
   const headers = Object.keys(data[0]);
   const csvRows = [
-    headers.join(','), 
+    headers.join(','),
     ...data.map((row) =>
-      headers.map((header) => {
-        let value = row[header];
-        if (typeof value === 'object') {
-          value = JSON.stringify(value);
-        }
-        return `"${String(value).replace(/"/g, '""')}"`; 
-      }).join(',')
+      headers
+        .map((header) => {
+          let value = row[header];
+          if (typeof value === 'object' && value !== null) {
+            value = JSON.stringify(value);
+          }
+          return `"${String(value).replace(/"/g, '""')}"`;
+        })
+        .join(',')
     ),
   ];
 

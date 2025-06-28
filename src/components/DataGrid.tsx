@@ -1,20 +1,24 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Table, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { updateCell } from '@/store/dataSlice';
 import { Input } from '@/components/ui/input';
+import { Client, Worker, Task } from '@/types/global';
 
-interface DataGridProps {
-  data: any[];
-  entityType: 'clients' | 'workers' | 'tasks';
+type EntityType = 'clients' | 'workers' | 'tasks';
+type RowData = Client | Worker | Task;
+
+interface DataGridProps<T extends RowData> {
+  data: T[];
+  entityType: EntityType;
 }
 
-export const DataGrid: React.FC<DataGridProps> = ({ data, entityType }) => {
+export function DataGrid<T extends RowData>({ data, entityType }: DataGridProps<T>) {
   const dispatch = useAppDispatch();
   const { errors } = useAppSelector((state) => state.data);
-  const [editingCell, setEditingCell] = useState<{ rowIndex: number; column: string } | null>(null);
+  const [editingCell, setEditingCell] = useState<{ rowIndex: number; column: keyof T } | null>(null);
 
   const isCellInvalid = (rowIndex: number, column: string) => {
     return errors.some(
@@ -22,25 +26,25 @@ export const DataGrid: React.FC<DataGridProps> = ({ data, entityType }) => {
     );
   };
 
-  const handleCellChange = (rowIndex: number, column: string, value: any) => {
+  const handleCellChange = (rowIndex: number, column: keyof T, value: string) => {
     dispatch(updateCell({ key: entityType, rowIndex, column, value }));
   };
 
   const columns = React.useMemo(
     () =>
       data.length > 0
-        ? Object.keys(data[0]).map((key) => ({
-            accessorKey: key,
-            header: key,
-            cell: ({ row }: any) => {
+        ? (Object.keys(data[0]) as (keyof T)[]).map((key) => ({
+            accessorKey: key as string,
+            header: key as string,
+            cell: ({ row }: { row: { index: number; original: T } }) => {
               const rowIndex = row.index;
 
               if (editingCell && editingCell.rowIndex === rowIndex && editingCell.column === key) {
                 return (
                   <Input
                     type="text"
-                    className={isCellInvalid(rowIndex, key) ? 'border-red-500' : ''}
-                    value={row.original[key]}
+                    className={isCellInvalid(rowIndex, key as string) ? 'border-red-500' : ''}
+                    value={String(row.original[key])}
                     onChange={(e) => handleCellChange(rowIndex, key, e.target.value)}
                     onBlur={() => setEditingCell(null)}
                     autoFocus
@@ -50,13 +54,13 @@ export const DataGrid: React.FC<DataGridProps> = ({ data, entityType }) => {
 
               return (
                 <div onClick={() => setEditingCell({ rowIndex, column: key })} className="cursor-pointer">
-                  {row.original[key]}
+                  {String(row.original[key])}
                 </div>
               );
             },
           }))
         : [],
-    [data, editingCell, errors]
+    [data, editingCell, errors, entityType]
   );
 
   const table = useReactTable({
@@ -93,4 +97,4 @@ export const DataGrid: React.FC<DataGridProps> = ({ data, entityType }) => {
       </table>
     </div>
   );
-};
+}

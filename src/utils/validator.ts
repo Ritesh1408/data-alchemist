@@ -1,31 +1,24 @@
-interface ValidationError {
-  entityType: 'clients' | 'workers' | 'tasks';
-  rowIndex: number;
-  column: string;
-  message: string;
-}
+import { Client, Worker, Task, ValidationError } from '@/types/global';
 
 export const validateData = (
   entityType: 'clients' | 'workers' | 'tasks',
-  data: any[]
+  data: Client[] | Worker[] | Task[]
 ): ValidationError[] => {
   const errors: ValidationError[] = [];
 
   if (data.length === 0) return errors;
 
-  // Required columns
-  const requiredColumns: Record<string, string[]> = {
+  const requiredColumns: Record<'clients' | 'workers' | 'tasks', string[]> = {
     clients: ['ClientID', 'ClientName', 'PriorityLevel', 'RequestedTaskIDs', 'GroupTag', 'AttributesJSON'],
     workers: ['WorkerID', 'WorkerName', 'Skills', 'AvailableSlots', 'MaxLoadPerPhase', 'WorkerGroup', 'QualificationLevel'],
     tasks: ['TaskID', 'TaskName', 'Category', 'Duration', 'RequiredSkills', 'PreferredPhases', 'MaxConcurrent'],
   };
 
-  const ids = new Set();
+  const ids = new Set<string>();
 
   data.forEach((row, rowIndex) => {
-    // Check for missing required columns
     requiredColumns[entityType].forEach((column) => {
-      if (row[column] === undefined || row[column] === '') {
+      if (row[column as keyof typeof row] === undefined || row[column as keyof typeof row] === '') {
         errors.push({
           entityType,
           rowIndex,
@@ -35,21 +28,20 @@ export const validateData = (
       }
     });
 
-    // Check for duplicate IDs
     const idKey = entityType === 'clients' ? 'ClientID' : entityType === 'workers' ? 'WorkerID' : 'TaskID';
-    if (ids.has(row[idKey])) {
+
+    if (ids.has(row[idKey as keyof typeof row] as string)) {
       errors.push({
         entityType,
         rowIndex,
         column: idKey,
-        message: `Duplicate ID: ${row[idKey]}`,
+        message: `Duplicate ID: ${row[idKey as keyof typeof row]}`,
       });
     } else {
-      ids.add(row[idKey]);
+      ids.add(row[idKey as keyof typeof row] as string);
     }
 
-    // Check number fields
-    if (entityType === 'clients' && (row['PriorityLevel'] < 1 || row['PriorityLevel'] > 5)) {
+    if (entityType === 'clients' && (Number(row['PriorityLevel']) < 1 || Number(row['PriorityLevel']) > 5)) {
       errors.push({
         entityType,
         rowIndex,
@@ -78,8 +70,8 @@ export const validateData = (
 
     if (entityType === 'clients' && row['AttributesJSON']) {
       try {
-        JSON.parse(row['AttributesJSON']);
-      } catch (err) {
+        JSON.parse(row['AttributesJSON'] as string);
+      } catch {
         errors.push({
           entityType,
           rowIndex,
