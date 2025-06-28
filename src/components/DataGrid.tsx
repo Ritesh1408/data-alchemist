@@ -27,7 +27,7 @@ export function DataGrid<T extends RowData>({ data, entityType }: DataGridProps<
   };
 
   const handleCellChange = (rowIndex: number, column: keyof T, value: string) => {
-    dispatch(updateCell({ key: entityType, rowIndex, column, value }));
+    dispatch(updateCell({ key: entityType, rowIndex, column: column as string, value }));
   };
 
   const columns = React.useMemo(

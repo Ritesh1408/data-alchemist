@@ -15,12 +15,24 @@ import { AIRuleSuggestions } from '@/components/AIRuleSuggestions';
 import { DataExporter } from '@/components/DataExporter';
 import { Card, CardContent } from '@/components/ui/card';
 
+import type { Client, Worker, Task } from '@/types/global'; 
+
 export default function Home() {
   const dispatch = useAppDispatch();
   const { clients, workers, tasks } = useAppSelector((state) => state.data);
 
   const handleFileUpload = async (file: File, type: 'clients' | 'workers' | 'tasks') => {
-    const data = await parseFile(file);
+    const rawData = await parseFile(file);
+
+    let data: Client[] | Worker[] | Task[];
+    if (type === 'clients') {
+      data = rawData as Client[];
+    } else if (type === 'workers') {
+      data = rawData as Worker[];
+    } else {
+      data = rawData as Task[];
+    }
+
     dispatch(setData({ key: type, data }));
 
     const validationErrors = validateData(type, data);

@@ -63,14 +63,17 @@ const dataSlice = createSlice({
 
       if (key === 'clients') {
         state.clients = updatedEntityData as Client[];
+        const updatedErrors = validateData(key, updatedEntityData as Client[]);
+        state.errors = updatedErrors;
       } else if (key === 'workers') {
         state.workers = updatedEntityData as Worker[];
+        const updatedErrors = validateData(key, updatedEntityData as Worker[]);
+        state.errors = updatedErrors;
       } else if (key === 'tasks') {
         state.tasks = updatedEntityData as Task[];
+        const updatedErrors = validateData(key, updatedEntityData as Task[]);
+        state.errors = updatedErrors;
       }
-
-      const updatedErrors = validateData(key, updatedEntityData);
-      state.errors = updatedErrors;
     },
 
     setErrors: (state, action: PayloadAction<ValidationError[]>) => {
