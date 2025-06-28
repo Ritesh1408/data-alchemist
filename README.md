@@ -1,36 +1,159 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# 🚀 Data Alchemist
 
-First, run the development server:
+*An AI-Powered Data Configuration Platform*
+
+![Next.js](https://img.shields.io/badge/Next.js-000?logo=next.js\&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript\&logoColor=white)
+![Redux Toolkit](https://img.shields.io/badge/Redux%20Toolkit-764ABC?logo=redux\&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css\&logoColor=white)
+
+---
+
+## 📚 Overview
+
+**Data Alchemist** is a modern AI-assisted tool to **upload, validate, manipulate, and export datasets** using:
+
+* **Natural Language Rules**
+* **AI Rule Suggestions**
+* **Priority Management Sliders**
+* **Editable Data Grids**
+
+It simplifies complex configuration by allowing natural interaction with your data.
+
+---
+
+## 🚀 Features
+
+✅ Upload CSV/XLSX files for:
+
+* Clients
+* Workers
+* Tasks
+
+✅ Visual Data Grids (with in-line editing)
+✅ Data Validation with detailed error summaries
+✅ Priority Settings via interactive sliders
+✅ AI-powered Rule Suggestions with lazy loading
+✅ Manual Rule Builder for Task Co-Runs
+✅ Natural Language Rule Input (e.g., *Co-run Task A and Task B*)
+✅ Natural Language Data Search (e.g., *Show tasks longer than 2 phases in phase 3*)
+✅ Export Cleaned Datasets and Generated Rules
+✅ Real-time Toast Notifications (via **Sonner**)
+
+---
+
+## 📂 Project Structure
+
+```text
+src/
+├── app/                 # Next.js App Router
+│   ├── page.tsx         # Main Page
+│   └── providers.tsx    # Redux Provider
+│
+├── components/          # UI & Functional Components
+│   ├── FileUpload.tsx
+│   ├── DataGrid.tsx
+│   ├── ValidationSummary.tsx
+│   ├── RuleBuilder.tsx
+│   ├── PrioritySlider.tsx
+│   ├── NaturalLanguageRuleInput.tsx
+│   ├── NaturalLanguageSearch.tsx
+│   ├── AIRuleSuggestions.tsx
+│   ├── DataExporter.tsx
+│   └── ui/              # shadcn/ui components
+│
+├── store/               # Redux Toolkit Store
+├── utils/               # Parsers, Validators, NLP Utilities
+└── styles/              # Global CSS & Tailwind Config
+```
+
+---
+
+## ⚙️ Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone <your-repo-url>
+cd data-alchemist
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+App will be running at:
+[http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 💬 Natural Language Rule Examples
 
-## Learn More
+| Example Input                       | Effect                                |
+| ----------------------------------- | ------------------------------------- |
+| Co-run Task T1 and Task T2          | Creates a co-run rule for these tasks |
+| Schedule Task A and Task B together | Same as co-run rule                   |
+| Co-run Task X1 and Task Y2          | Supports multi-task selection         |
 
-To learn more about Next.js, take a look at the following resources:
+> You can add these directly in the **Natural Language Rule Input** field.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔍 Natural Language Search Examples
 
-## Deploy on Vercel
+| Example Query                              | Result                              |
+| ------------------------------------------ | ----------------------------------- |
+| Show tasks longer than 2 phases in phase 3 | Filters tasks by duration and phase |
+| Clients with priority 1                    | Shows clients with priority level 1 |
+| Workers in location Mumbai                 | Lists workers based in Mumbai       |
+| Show tasks with duration greater than 3    | Filters tasks by duration           |
+| Show clients located in Delhi              | Lists clients from Delhi            |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> Search queries are written in plain English using supported patterns.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📤 Export Options
+
+* Export cleaned **Clients, Workers, Tasks** datasets as CSV files.
+* Export all generated **Rules** as JSON.
+
+---
+
+## 🛠 Tech Stack
+
+* **Next.js 15 (App Router)**
+* **TypeScript**
+* **Redux Toolkit**
+* **Tailwind CSS**
+* **shadcn/ui**
+* **Sonner (Toast Notifications)**
+* **@tanstack/react-table** (Editable Tables)
+
+---
+
+## 📈 Future Improvements
+
+* Advanced NLP Parsing with LLM APIs (OpenAI, Cohere)
+* Role-based Authentication and Access
+* Data Versioning and Rollback
+* Visual Analytics and Priority Graphs
+* Real-time Collaborative Editing
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
