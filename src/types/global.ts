@@ -49,7 +49,7 @@ export interface RuleSuggestion {
 
 export interface Client {
   ClientID: string;
-  RequestedTaskIDs: string; // Comma-separated string
+  RequestedTaskIDs: string; 
   [key: string]: unknown;
 }
 

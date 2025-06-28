@@ -1,6 +1,6 @@
-import { Client, Worker, RuleSuggestion } from '@/types/global';
+import { Client, Worker, Task, RuleSuggestion } from '@/types/global';
 
-export const recommendRules = (clients: Client[], workers: Worker[]): RuleSuggestion[] => {
+export const recommendRules = (clients: Client[], workers: Worker[], tasks: Task[]): RuleSuggestion[] => {
   const recommendations: RuleSuggestion[] = [];
 
   // Find tasks that are commonly requested together
@@ -17,12 +17,12 @@ export const recommendRules = (clients: Client[], workers: Worker[]): RuleSugges
   });
 
   taskPairs.forEach((count, pair) => {
-    if (count >= 2) { 
+    if (count >= 2) {
       const [task1, task2] = pair.split(',');
       recommendations.push({
         type: 'coRun',
         params: { tasks: [task1, task2] },
-        description: `Tasks ${task1} and ${task2} are often requested together. Suggest co-run.`
+        description: `Tasks ${task1} and ${task2} are often requested together. Suggest co-run.`,
       });
     }
   });
@@ -33,7 +33,18 @@ export const recommendRules = (clients: Client[], workers: Worker[]): RuleSugges
       recommendations.push({
         type: 'loadLimit',
         params: { workerGroup: worker.WorkerGroup, maxLoad: 5 },
-        description: `Worker group ${worker.WorkerGroup} might be overloaded. Suggest max load limit of 5.`
+        description: `Worker group ${worker.WorkerGroup} might be overloaded. Suggest max load limit of 5.`,
+      });
+    }
+  });
+
+  // ✅ NEW: Find long duration tasks
+  tasks.forEach((task) => {
+    if (Number(task.Duration) > 5) {
+      recommendations.push({
+        type: 'splitTask',
+        params: { taskID: task.TaskID, maxDuration: 5 },
+        description: `Task ${task.TaskID} has a long duration. Consider splitting it into smaller tasks.`,
       });
     }
   });

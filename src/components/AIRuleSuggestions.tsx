@@ -22,6 +22,7 @@ export const AIRuleSuggestions: React.FC = () => {
   const handleGenerateSuggestions = () => {
     setIsLoading(true);
     setTimeout(() => {
+      // ✅ Now passing tasks as well
       const recommended = recommendRules(clients, workers, tasks);
       setSuggestions(recommended);
       setIsLoading(false);
@@ -67,7 +68,12 @@ export const AIRuleSuggestions: React.FC = () => {
             <p className="text-gray-700">{suggestion.description}</p>
             <Button
               variant="outline"
-              onClick={() => handleAddRule({ type: suggestion.type, params: suggestion.params, description: suggestion.description })} className="mt-2"
+              onClick={() => handleAddRule({
+                type: suggestion.type,
+                params: suggestion.params,
+                description: suggestion.description
+              })}
+              className="mt-2"
             >
               Accept Rule
             </Button>

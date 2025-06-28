@@ -71,7 +71,16 @@ export const RuleBuilder: React.FC = () => {
         ) : (
           rules.map((rule, idx) => (
             <div key={idx} className="flex justify-between items-center border p-3 rounded mb-3 bg-gray-50 dark:bg-gray-800">
-              <span className="text-gray-700 dark:text-gray-200">{rule.type}: {rule.params.tasks.join(', ')}</span>
+              <span className="text-gray-700 dark:text-gray-200">
+                {rule.type}:{' '}
+                {rule.type === 'coRun' && Array.isArray(rule.params.tasks)
+                  ? rule.params.tasks.join(', ')
+                  : rule.type === 'loadLimit'
+                  ? `Max Load: ${rule.params.maxLoad} for ${rule.params.workerGroup}`
+                  : rule.type === 'splitTask'
+                  ? `Split Task: ${rule.params.taskID} (Max Duration: ${rule.params.maxDuration})`
+                  : JSON.stringify(rule.params)}
+              </span>
               <Button variant="destructive" onClick={() => handleRemoveRule(idx)}>
                 Remove
               </Button>
