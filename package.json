@@ -26,6 +26,7 @@
     "react-dom": "^19.0.0",
     "react-papaparse": "^4.4.0",
     "react-redux": "^9.2.0",
+    "recharts": "^3.0.2",
     "shadcn-ui": "^0.9.5",
     "sonner": "^2.0.5",
     "tailwind-merge": "^3.3.1",

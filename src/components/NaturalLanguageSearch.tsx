@@ -6,6 +6,7 @@ import { parseSearchQuery } from '@/utils/nlpSearchParser';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Client, Worker, Task } from '@/types/global';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 type EntityType = 'clients' | 'workers' | 'tasks' | '';
 type EntityData = Client | Worker | Task;
@@ -70,6 +71,20 @@ export const NaturalLanguageSearch: React.FC = () => {
               ))}
             </tbody>
           </table>
+
+          {/* 📊 Bar Chart Visualization */}
+          <div className="mt-10">
+            <h3 className="font-semibold mb-2 text-gray-700">📊 Visualized Data:</h3>
+
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={filteredData}>
+                <XAxis dataKey="TaskName" hide={false} />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="Duration" fill="#3b82f6" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       )}
 
