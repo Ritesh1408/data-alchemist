@@ -32,13 +32,21 @@ It simplifies complex configuration by allowing natural interaction with your da
 * Tasks
 
 ✅ Visual Data Grids (with in-line editing)
+
 ✅ Data Validation with detailed error summaries
+
 ✅ Priority Settings via interactive sliders
+
 ✅ AI-powered Rule Suggestions with lazy loading
+
 ✅ Manual Rule Builder for Task Co-Runs
+
 ✅ Natural Language Rule Input (e.g., *Co-run Task A and Task B*)
+
 ✅ Natural Language Data Search (e.g., *Show tasks longer than 2 phases in phase 3*)
+
 ✅ Export Cleaned Datasets and Generated Rules
+
 ✅ Real-time Toast Notifications (via **Sonner**)
 
 ---
