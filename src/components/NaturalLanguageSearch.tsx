@@ -57,7 +57,7 @@ export const NaturalLanguageSearch: React.FC = () => {
             <tbody>
               {filteredData.map((row, idx) => (
                 <tr key={idx} className="hover:bg-gray-50">
-                  {Object.entries(row).map((val, i) => (
+                  {Object.values(row).map((val, i) => (
                     <td key={i} className="border px-4 py-2">
                       {Array.isArray(val)
                         ? val.join(', ')
